@@ -37,3 +37,5 @@ rsconnect/
 
 # Exclude the prediction models themselves
 /*.pred
+tox/**
+SOurCE-dev.Rproj

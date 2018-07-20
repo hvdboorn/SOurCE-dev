@@ -1,0 +1,33 @@
+/*:root {
+  --success: #18bc9c;
+  --success-dark: #15a589;
+  --warning: #f39c12;
+  --warning-dark: #c87f0a;
+}*/
+
+/*switches color not selected*/
+.material-switch > label::after {background: #DDD;}
+
+/*add darker borders around buttons*/
+.btn-success {border-color: #15a589;}
+.btn-warning {border-color: #c87f0a;}
+.btn-default .active {background-color: #911eb4;}
+
+/*remove hover color from 'weergave'*/
+.dual:hover {background-color: #f39c12;}
+
+.border-div{text-align: right}
+.sw-dropdown-in{text-align: left;}
+/*collapse menu for treatment*/
+.collapse, .collapsing{text-align: left; box-shadow: 0px 0px 15px 0px #c0c0c0; padding: 7px; padding-top: 0px;}
+
+/*Check box*/
+.pretty input:checked~.state.p-success label:after, .pretty.p-toggle .state.p-success label:after
+  {background-color: #18bc9c!important;}
+
+/*Slider bar*/
+.irs-bar, .irs-single, .irs-bar-edge{background-color: #f39c12; border-color: #c87f0a;}
+
+.pretty {
+  white-space: normal;
+}
