@@ -1,7 +1,18 @@
 button_tooltip = function(base, inputId, title) {
   base %<>% str_replace(paste0("(?s)(<button )((?:(?!</button>).)*?value=\"",inputId,"\".*?</button>)"), 
-                        paste0("\\1data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" ",
+                        paste0("\\1data-toggle=\"tooltip\" data-trigger=\"hover\" data-placement=\"auto top\" title=\"\" ",
                                "data-original-title=\"",title,"\" \\2"))
+}
+
+collapse = function(classname, ...) {
+  tags$div(class=paste("collapse", classname), style="padding: 0px; box-shadow: 0 0 transparent;", ...)
+}
+
+number_field = function(id, label, placeholder, min, max) {
+  div(
+  tags$label(class="control-label", "for"=id, label),
+  tags$input(type="number", class="form-control", id=id, placeholder=placeholder, 
+             min=min, max=max, style="width: 20%"))
 }
 
 radio = function(inputId, label, choiceNames, choiceValues=choiceNames,
@@ -14,18 +25,17 @@ radio = function(inputId, label, choiceNames, choiceValues=choiceNames,
   # tooltips = list(G1="Goed gedifferentieerd",G4="Ongedifferentieerd")
   # size="normal"
   # status="success"
+  # cl = "input-element"
+  # selected="none"
   
   base = radioGroupButtons(inputId, label, choiceNames = choiceNames, choiceValues = choiceValues,
-           checkIcon=list(yes=icon("check")), selected = "none",
+           checkIcon=list(yes=icon("check")), selected = selected,
            #status=status,size=size) %>% as.character
            status=match.arg(status), size=match.arg(size)) %>% as.character
-  
   for (id in names(tooltips)) {
-    base %<>% add_tooltip_to_button(id, tooltips[id])
-    # base %<>% str_replace(paste0("(?s)(<button )((?:(?!</button>).)*?value=\"",id,"\".*?</button>)"), 
-    #          paste0("\\1data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" ",
-    #                 "data-original-title=\"",tooltips[id],"\" \\2"))
+    base %<>% button_tooltip(id, tooltips[id])
   }
+
   HTML(base)
 }
 
@@ -42,5 +52,6 @@ dual_switch = function(inputId, icon1, icon2, tooltip) {
   <button class="btn radiobtn action-button bttn bttn-material-flat bttn-lg bttn-no-outline btn-warning dual">
   <input type="radio" autocomplete="off" name=\"',inputId,'\" id="',names(tooltip)[2],'" value="',names(tooltip)[2],'">
   <i class="fa fa-',icon2,' fa-fw"></i></input>
-  </button></div></div></div></div>') %>% button_tooltip(names(tooltip)[1],tooltip[1]) %>% button_tooltip(names(tooltip[2]),tooltip[2]) %>% HTML
+  </button></div></div></div></div>') %>% button_tooltip(names(tooltip)[1],tooltip[1]) %>% 
+    button_tooltip(names(tooltip[2]),tooltip[2]) %>% HTML
 }

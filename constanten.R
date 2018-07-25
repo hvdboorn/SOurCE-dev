@@ -1,5 +1,5 @@
 MAAND_DUUR = 30.4375##duur van een maand in dagen
-SKIP = TRUE##variabele voor het overslaan van de gegevensinvoer, if T wordt de invoer overgeslagen
+SKIP = FALSE##variabele voor het overslaan van de gegevensinvoer, if T wordt de invoer overgeslagen
 CHEMO_TOP3 = 3###Top 3 meest voorkomende chemo's
 MAX_KWAL_DUUR = 6##maximum tijd voor voorspelling van kwaliteit van leven in maanden
 HRQOL_GENPOP = 71.2 #gemiddelde score met sd van 22.4, mediaan is 75 IQD (58.3-83.3)
@@ -30,24 +30,6 @@ trans_tox = function(X) factor(unname(sapply(X,function(z) tox_en_nl[names(tox_e
 # overlevingen = c(0.5,0.6,0.2)
 ############################
 
-load("esophagus_NKR+_wo.pred");eso_fit=eso_fit_wo; eso_int = eso_fit$Design$name[eso_fit$Design$assume=="interaction"]###Model voor slokdarmtumor wordt ingeladen
-load("stomach_NKR+_wo.pred"); gas_fit=gas_fit_wo; gas_int = gas_fit$Design$name[gas_fit$Design$assume=="interaction"]###Model voor maagtumor wordt ingeladen
-
-SECTION = list(SELECTED="section_icon_thick_selected.png", NOT_SELECTED="section_icon_thick.png")
-
-typical_button = bsButton(inputId="typical_scenario", label=img(src=SECTION$NOT_SELECTED,width=30,height=30),style = "default",
-                    size = "default", type = "toggle")
-worst_button = bsButton(inputId="worst_scenario", label=img(src=SECTION$NOT_SELECTED,width=30,height=30),style = "default",
-                      size = "default", type = "toggle")
-best_button = bsButton(inputId="best_scenario", label=img(src=SECTION$NOT_SELECTED,width=30,height=30),style = "default",
-                      size = "default", type = "toggle")
-
-lijnknop = bsButton(inputId="over_lijn_but", label=img (src="man.png", width="50", height="50"),
-                    icon = NULL, style = "warning",size = "large", type = "action", block = FALSE, disabled = FALSE)
-
-pictoknop = bsButton(inputId="over_picto_but", label=img (src="line.png", width="50", height="50"),
-                      icon = NULL, style = "warning",size = "large", type = "action", block = FALSE, disabled = FALSE)
-
 kwal_bar_knop = bsButton(inputId="kwal_bar_but", label=img (src="bar.png", width="50", height="50"),
                          icon = NULL, style = "warning",size = "large", type = "action", block = FALSE, disabled = FALSE)
 
@@ -67,7 +49,6 @@ used_treats_nl = c("None"="Geen behandeling", "Chemotherapy"="Chemotherapie",'Ch
                    "Radiotherapy (primary tumor)" = "Bestraling (tumor)",
                    "Radiotherapy (metastasis)" = "Bestraling (uitzaaiing)",
                    "Stent" = "Stent")
-
 behandelingen_nl_picto = list("Geen behandeling", "Chemotherapie","Bestraling (tumor)","Bestraling (uitzaaiing)",
                               "Chemoradiatie","Chemotherapie + korte bestraling","Operatie (uitzaaiing)","Stent","Operatie (tumor)")
 

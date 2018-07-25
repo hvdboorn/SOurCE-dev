@@ -230,11 +230,12 @@ plot_pictograph = function(surv, pictograph_icons, from_top = TRUE, picto_title,
 
 # #example
 # #STATES = list("Chemo","Resectie","Chemoradiatie"); names(STATES) = STATES
-STATES = c(behandelingen_nl_picto,"EMPTY"); names(STATES) = STATES#lijst met behandelingen is dezelfde lijst als used_treats_nl
+treatments = as.list(used_treats_nl)
+STATES = c(treatments,"EMPTY"); names(STATES) = STATES#lijst met behandelingen is dezelfde lijst als used_treats_nl
 COLORS = as.list(c(picto_kleur,"#dddddd")); names(COLORS) = names(STATES)#kleuren van de pictograph komen uit lijn_kleur
 # #list("#911eb4","#05acaf","#25a60a"); 
 pictograph_icons = get_pictograph_icons(category_colors = COLORS, deceased_color = list("Overleden"="#dddddd"))
-surv = list(37,58);names(surv)=c(STATES$Chemo,STATES$Resectie)
-behandelingen = c("Geen behandeling","Bestraling (tumor)")
-surv = list(37,58);names(surv)=c(STATES[[behandelingen[1]]],STATES[[behandelingen[2]]])
-#grid.draw(plot_pictograph(surv, pictograph_icons,from_top = T,picto_title = "EEN TITEL"))
+#surv = list(37,58);names(surv)=c(STATES$Chemo,STATES$Resectie)
+#behandelingen = c("Geen behandeling","Bestraling (tumor)")
+#surv = list(37,58);names(surv)=c(STATES[[behandelingen[1]]],STATES[[behandelingen[2]]])
+##grid.draw(plot_pictograph(surv, pictograph_icons,from_top = T,picto_title = "EEN TITEL"))

@@ -2,12 +2,10 @@
 #devtools::install_github("hvdboorn/hgutils")
 #devtools::install_github("tidyverse/ggplot2")
 #install.packages("colorspace", repos="http://R-Forge.R-project.org")
-
 #eventueel later terugzetten: %>% shinycssloaders::withSpinner(color="#a4c408",type=1)
 
 library(hgutils)
-#startup()
-#cowplot sets the theme to theme_cowplot
+startup()
 load_packages('grid','gridExtra','htmltools','plotly','rms','shinyBS','shinydashboard',
               'shinyjs','shinyWidgets','shinythemes','showtext',"shiny","stringr")
 #font_add_google("Lato","Lato")
@@ -16,7 +14,7 @@ showtext_auto()
 #   ttf_import("www/",recursive = FALSE)
 # }
 # loadfonts()
-# windowsFonts(Lato_FR=windowsFont("TT Lato"))
+windowsFonts(Lato=windowsFont("TT Lato"))
 
 source('constanten.R')##Source-file met constanten en functies
 source('pagerui.R')##Source-file nodig voor de navigatiebalk onderaan bij de gegevensinvoer
@@ -29,14 +27,14 @@ source("components.R")
 invoer_eso <- hidden(tags$div(id="eso_invoer",
 box(id="eso_invoer_box", status = "success", solidHeader = T,collapsible=F,collapsed = F,width=NULL,height =NULL,
   if(!SKIP){fluidPage(fluidRow(id="eso_page1",
-    column(width = 2,
+    column(width = 12,
            
            
       tags$div(class="form-group", id="fg-age", tags$label("for"="eso_nLeeft", "Leeftijd"),
-      tags$input(type="number", class="form-control", id="eso_nLeeft", placeholder="Leeftijd", min=18, max=120)))),
+      tags$input(type="number", class="form-control", id="eso_nLeeft", placeholder="18 - 100", min=18, max=100, style="width: 20%")))),
 
     hidden(fluidRow(id="eso_page2",
-      column(width = 4,
+      column(width = 12,
         radioGroupButtons(inputId = "eso_sCTs",label="cT stadium primaire tumor",
                           choices=eso_fit$Design$values$sCTs,selected = "none",checkIcon=list(yes=icon("check")),
                           status="success",size="normal"),
@@ -47,92 +45,74 @@ box(id="eso_invoer_box", status = "success", solidHeader = T,collapsible=F,colla
                                choices=eso_fit$Design$values$tDiffgr,selected = "none",checkIcon=list(yes=icon("check")),
                                status="success",size="normal")))),
     hidden(fluidRow(id="eso_page3",
-      column(width = 3,
+      column(width = 12,
         prettyRadioButtons(inputId = "eso_tTopog_name", label="Locatie primaire tumor",
-                            choiceValues=eso_used_locations, status="success",
+                            choiceValues=eso_used_locations, status="success", width="100%",
            animation = "smooth", bigger=TRUE, icon=icon("check"), plain=TRUE, selected="none",
            choiceNames = eso_locatie_namen)))),
-    hidden(fluidRow(id="eso_page4",column(width = 4,
-        radioGroupButtons(inputId = "eso_only_lymf_meta",label="Heeft de patiënt alleen afstandsmetastasen in de lymfeklieren?",
+    hidden(fluidRow(id="eso_page4",column(width = 12,
+        radioGroupButtons(inputId = "eso_only_lymf_meta",label="Alleen afstandsmetastasen in de lymfeklieren",
                           choices=c("Ja","Nee"),selected = "none", size="normal", checkIcon=list(yes=icon("check")), status = "success"),
-        hidden(radioGroupButtons(inputId = "eso_liver_meta",label="Heeft de patiënt lever metastasen?",
-                          choices=c("Ja","Nee"),selected = "none",size="normal", checkIcon=list(yes=icon("check")), status = "success")),
-        hidden(radioGroupButtons(inputId = "eso_peri_meta",label="Heeft de patiënt peritoniale metastasen?",
+        tags$div(class="collapse lp", style="padding: 0px; box-shadow: 0 0 transparent;",
+        radioGroupButtons(inputId = "eso_liver_meta",label="Lever metastasen",
+                          choices=c("Ja","Nee"),selected = "none",size="normal", checkIcon=list(yes=icon("check")), status = "success"),
+        radioGroupButtons(inputId = "eso_peri_meta",label="Peritoniale metastasen",
                           choices=c("Ja","Nee"),selected = "none",size="normal", checkIcon=list(yes=icon("check")), status = "success")),
         
         tags$div(class="form-group", id="fg-eso_nmeta", tags$label("for"="eso_nmeta", "Aantal locaties met metastasen"),
-                 tags$input(type="number", class="form-control", id="eso_nmeta", placeholder="Aantal locaties", min=1, max=6, width="250px"))))),
+                 tags$input(type="number", class="form-control", id="eso_nmeta", placeholder="1 - 6", min=1, max=6, style="width: 20%"))))),
     
         hidden(actionBttn(inputId = "eso_update",label="Voer gegevens in", style = "fill", color="success")),
         tags$br(),tags$br(),tags$br(),fluidRow(pageruiInput('eso_pager',page_current = 1,pages_total = 4)))}
         else{actionBttn(inputId = "eso_update",label="Voer gegevens in", style = "fill", color="success")})))
 
-# ####### Invoerscherm voor de maagtumor ###############
-invoer_gas <-    hidden(tags$div(id="gas_invoer",
-box(id="gas_invoer_box",title = "Gegevensinvoer Maagtumor:",status = "primary",solidHeader = T,collapsible=F,collapsed = F,width=NULL,height =NULL,fluidPage(fluidRow(
-  if (!SKIP){fluidPage(fluidRow(id="gas_page1",
-    column(width = 2,####leeftijd invoer
-      numericInput(inputId = "gas_nLeeft",label="Leeftijd van de patiënt:",width="220px",value=0, min=gas_age[6], max=gas_age[7]))),
-      hidden(fluidRow(id="gas_page2",
-        column(width= 3,
-          radioGroupButtons(inputId = "gas_sCTs",selected = "none",label="Wat is het klinische T-Stadium van de tumor?",choices=gas_fit$Design$values$sCTs,status="primary",size="lg")),
-        column(width = 3,
-          radioGroupButtons(inputId = "gas_sCN",selected = "none",label="Wat is het klinische N-Stadium van de tumor?",choices=gas_fit$Design$values$sCN,status="primary",size="lg")),
-        column(width = 3,
-          radioGroupButtons(inputId = "gas_tDiffgr",selected = "none",label="Wat is de Differentiatiegraad van de tumor?",choices=gas_fit$Design$values$tDiff,status="primary",size = "lg")))),
-      hidden(fluidRow(id="gas_page3",
-        column(width=4,
-          radioButtons(inputId = "gas_tTopog_name",selected = "none",label="Wat is de locatie van de tumor?",choices=gas_used_locations)))),
-      hidden(fluidRow(id="gas_page4",
-        column(width=5,
-          radioGroupButtons(inputId = "gas_only_lymf_meta",label="Heeft de patiënt alleen lymfe klier metastasen?",choices=c("Ja","Nee"),selected = "none", size="lg",status = "primary"),
-          hidden(radioGroupButtons(inputId = "gas_liver_meta",label="Heeft de patiënt lever metastasen?",choices=c("Ja","Nee"),selected = "none",size="lg",status = "primary")),
-          hidden(radioButtons(inputId = "gas_nmeta_cat",label="Aantal metastasen:",choices=gas_fit$Design$values$nmeta_cat,inline = T))))),
-          hidden(actionButton(inputId = "gas_update",label="Voer gegevens in",position="absolute")),
-          tags$br(),tags$br(),tags$br(),fluidRow(pageruiInput('gas_pager',page_current = 1,pages_total = 4)))}
-  else{actionButton(inputId = "gas_update",label="Voer gegevens in",position="absolute")})))))
-
 #### Gegevensinvoer scherm
 invoer_pat =
   fluidPage(id="invoer",
-            tags$h3("Invoer patiëntgegevens"),
-            radioGroupButtons(inputId = "eso_or_gas", label="Locatie tumor:", selected=ifelse(SKIP,"Slokdarm","none"), 
-                              choices=list("Slokdarm", "Maag"), status="success", 
-                              checkIcon = list(yes = icon("check",class="fa-7x", lib = "font-awesome"))),### Invoer voor keuze tussen slokdarmtumor en maagtumor
+            radio(inputId = "eso_or_gas", label="Locatie tumor:", selected=ifelse(SKIP,"Slokdarm","none"), 
+                              choiceNames=list("Slokdarm", "Maag")),### Invoer voor keuze tussen slokdarmtumor en maagtumor
             tags$br(),
-            fluidRow(invoer_eso, invoer_gas))###Gegevensinvoer scherm voor slokdarmtumor en maagtumor
+            fluidRow(invoer_eso))###Gegevensinvoer scherm voor slokdarmtumor en maagtumor
 
 #### Scherm voor het weergeven van de verschillende grafieken en diagram opties, het uitkomsten scherm.
 slokdarm_maag_content = fluidPage(#theme = shinytheme("yeti"),
-  column(width = 10,mainPanel(side="left", width=20,
+  tags$div(id="plot_area",mainPanel(side="left",width=10,
+                                    
+                                    tags$head(tags$script('$(document).on("shiny:connected", function(e) {
+                            Shiny.onInputChange("innerHeight", $("#opties_rechts").height());
+Shiny.onInputChange("innerWidthLijn",$("#out_over_lijn").width());
+                             Shiny.onInputChange("innerWidthPicto",$("#out_over_picto").width());
+});
+$(window).resize(function(e) {Shiny.onInputChange("innerHeight", $("#opties_rechts").height());
+                             Shiny.onInputChange("innerWidthLijn",$("#out_over_lijn").width());
+                             Shiny.onInputChange("innerWidthPicto",$("#out_over_picto").width());
+                                                          });')),
+                                    
     tabsetPanel(id="slokdarm_maag_uitkomsten",type = "pills",selected="EXTRA",###Panel met verschillende tabs
         tabPanel(value="over",title = "Overleving",###Tab voor de overleving
-        plotlyOutput("out_over_lijn",width="100%",height="750"),###(plotly)Outputobject voor overleving in lijnweergave
-        plotOutput("out_over_picto",width="100%", height="750")),###Ouputobject voor overleving met pictograph
+        hidden(plotlyOutput("out_over_lijn",width="100%",height="750")),###(plotly)Outputobject voor overleving in lijnweergave
+        plotOutput("out_over_picto", width="100%",height="750")),###Ouputobject voor overleving met pictograph
       tabPanel(value="kwal",title="Kwaliteit van leven",###Tab voor de QoL
         plotOutput("out_kwal_bar",width="100%",height="750"),###Outputobject voor QoL in staafdiagram
         plotlyOutput("out_kwal_lijn",width="100%",height="750")),###Outputobject voor QoL in lijnweergave
-      tabPanel(value="tox",title="Toxiciteit",###Tab voor de toxiciteit
+      tabPanel(value="tox",title="Bijwerkingen",###Tab voor de toxiciteit
         plotOutput("out_tox",width="100%",height="750")),##Ouputobject voor toxiciteit
-      tabPanel(value="samenvat",title="Samenvatting",###Tab voor de samenvatting
-        tags$div(class="samenvatting",###De verschillende grafieken staan in een div
-        plotlyOutput("out_over_sv",width="100%" ,height="500"),##Outputobject overleving voor de samenvatting
-        plotOutput("out_kwal_sv",width="100%",height="500"),##Outputobject kwaliteit van leven voor de samenvatting
-        plotOutput("out_tox_sv",width="100%",height = "500"))),
-      tabPanel(title="EXTRA", value="EXTRA")))),##Outputobject toxiciteit voor de samenvatting
+      tabPanel(title="EXTRA", value="EXTRA")))),
   
   
-  column(id="opties_rechts",width=2,###Kolom voor de verschillende opties aan de rechterzijde van het scherm
+  div(class="sidenav",id="opties_rechts",###Kolom voor de verschillende opties aan de rechterzijde van het scherm
     tags$div(class="border-div",
          tags$p(class="align_right",
     h4("Wijzig weergave"),
-    dual_switch(inputId = "hallo_69", "male","line-chart",c("picto_button"="Pictogram","line_button"="Kaplan Meier")),
+    dual_switch(inputId = "dual-switch", "male","line-chart",c("picto_button"="Pictogram","line_button"="Kaplan Meier")),
 
-    actionBttn("icon_menu_button", icon=icon("line-chart", class="fa-fw"), color="primary",style = "material-flat",size="lg"),
+    hidden(actionBttn("icon_menu_button", icon=icon("line-chart", class="fa-fw"), color="primary",style = "material-flat",size="lg")),
 ###Div met daarin de knop voor het switchen tussen weergaves van overleving
-        tags$br(),
+#info icon with information.
+# tags$a(href="#", "data-toggle"="popover", title="Behandelingen", "data-placement"="left", 
+#        "data-content"="In deze lijst kunt verschillende behandelingen vinden.", "data-trigger"="focus",
+#        tags$span(class="glyphicon glyphicon-info-sign")),
         tags$h4("Behandelingen"),
-
         tags$button(class="action-button bttn bttn-material-flat bttn-lg bttn-success bttn-no-outline",
                     id="menu_button_treatment", type="button", "data-toggle"="collapse", 
                     "data-target"="#treatment_container", icon("medkit","fa-fw")),
@@ -148,10 +128,9 @@ slokdarm_maag_content = fluidPage(#theme = shinytheme("yeti"),
 
       dropdown(
         hidden(checkboxGroupButtons(inputId = "percentile_buttons",label = "Uitkomst",choices = c("slecht","typisch","goed"),
-                                    checkIcon=list(yes=icon("check")), status="warning")),
+                                    checkIcon=list(yes=icon("check")), status="warning", size = "sm")),
       hidden(materialSwitch(inputId = "over_show_conf",label = "95% CI",status="warning", right=TRUE)),##knop voor confidence bij overleving
-      hidden(sliderInput(inputId="xmax",label="Tijd na diagnose",value=12,min=12,max=24)),##knop
-      hidden(sliderInput(inputId = "tijd_picto",label="Aantal maanden na diagnose:", value=6, min=0, max=24, step = 1)),##Tij
+      sliderInput(inputId="xmax",label="Tijd na diagnose",value=12,min=0,max=24),##knop
       hidden(materialSwitch(inputId = "kwal_norm",label ="Algemene bevolking",value = TRUE,status="warning", right=TRUE)),##knop voor algemene bevolking score
       hidden(materialSwitch(inputId = "kwal_show_conf",label ="95% CI",value = F,status="warning", right=TRUE)),##knop voor confidence interval bij kwaliteit van leven
       hidden(sliderInput(inputId="kwaliteit_moment",label="Follow-Up",value=0,min=0,max=MAX_KWAL_DUUR,step=3,width = "200px")),##Follow-up schuifbalk bij kwaliteit van leven
@@ -165,8 +144,8 @@ tags$meta(name="viewport",content="width=device-width, initial-scale=1.0")
 
 ui = navbarPage("SOurCE",id="tabs", inverse=TRUE, tabPanel("Invoer patiënt", invoer_pat, id="gegevensinvoer"),
                 tabPanel("Content", slokdarm_maag_content, id="uitkomsten"), selected = ifelse(SKIP,"Content","Invoer patiënt"),useShinyjs(),
-                header = tags$head(tags$link(rel="stylesheet", type="text/css", href="style.css"),
-                tags$script("$(document).ready(function(){$('[data-toggle=\"tooltip\"]').tooltip();});")),
+                header = tags$head(tags$link(rel="stylesheet", type="text/css", href="style.css"), tags$script(src="script.js"),
+                                   tags$link(rel="stylesheet", type="text/css", href="animate.css")),
                 theme = shinytheme("flatly"))
 
 server <- function(input, output, session)
@@ -178,11 +157,18 @@ server <- function(input, output, session)
   
   hideTab(inputId = "slokdarm_maag_uitkomsten", target="EXTRA") #hide the last tab so no tabs are selected at first
   
-  onclick("idhallo_69", {
-    print(selected)
+  onclick("iddual-switch", {
     selected = setdiff(c("picto_button","line_button"),selected)
-    updateRadioGroupButtons(session, "hallo_69", selected = selected)
+    updateRadioGroupButtons(session, "dual-switch", selected = selected)
     runjs("document.activeElement.blur();")
+    
+    toggleElement("out_over_picto", condition=selected=="picto_button")
+    toggleElement("out_over_lijn", condition=selected=="line_button")
+    
+    
+    toggleElement("percentile_buttons", condition=selected=="line_button")
+    toggleElement("over_show_conf", condition=selected=="line_button")
+    toggleElement("xmax", condition=selected=="line_button" | selected=="picto_button")
   })
 
   observeEvent(input$clear_treatment_selection, {updatePrettyCheckboxGroup(session, "first_line_treats", selected = "")})
@@ -563,7 +549,7 @@ server <- function(input, output, session)
          p = p + geom_area(data = best_range,aes(x=time,y=surv,group =label, fill=label, color=label),
                            alpha =0.1,position = "identity",show.legend = F,inherit.aes = F)
        }
-    plotly_lijn <- ggplotly(p, tooltip=c("text"), type="scatter")%>%
+    plotly_lijn <- ggplotly(p, height=input$innerHeight*0.85, tooltip=c("text"), type="scatter")%>%
     config(p = ., collaborate = F, displayModeBar = F,autosizable=F, scrollZoom=F,showAxisRangeEntryBoxes=F,
     showAxisDragHandles=F,displaylogo=F,autoScale2d = F,modeBarButtonsToRemove=array(weg1))%>%
     layout(legend = list(orientation='h', y=55),hovermode="x",hoverlabel=list(font=list(size=20))) %>%
@@ -582,11 +568,12 @@ server <- function(input, output, session)
   #### Functie voor het plotten van de overleving in een pictograph
   plot_survival_pictograph = function() renderPlot(
     {
+      wide = session$clientData[["output_out_over_picto_width"]] <= 690 #add factor
       if (input$eso_or_gas == "Slokdarm") is_eso = T else is_eso = F
       surv_data <<- predict_survival(is_eso)()
       survival <<- surv_data[['survival']]
       behandeling = surv_data[['labels']]
-      maand_na_diag = input$tijd_picto##Aantal maanden na diagnose
+      maand_na_diag = input$xmax##Aantal maanden na diagnose
       xmax =  maand_na_diag*MAAND_DUUR###xmax is xmax input (in maanden) * maand_duur om het om te zetten in aantal dagen
       survival=survival[survival$time<=xmax,]
       draw_nothing = attr(surv_data$patient_data, "no_therapies")
@@ -595,11 +582,11 @@ server <- function(input, output, session)
       
       picto = if(draw_nothing) {
           survival = 100; names(survival)="EMPTY"
-          plot_pictograph(survival,pictograph_icons,from_top = T,picto_title="", show_legend = FALSE)
+          plot_pictograph(survival,pictograph_icons,from_top = T,picto_title="", show_legend = FALSE, wide = wide)
         } else {
           overlevingen <<- survival$surv[survival$time == max(survival$time)]
           if(length(behandeling)<=2) {
-              behand_titel = paste0(tolower(behandeling_nl[1]),ifelse(length(behandeling)>1,paste0(" en ",tolower(behandeling_nl[2])),""))
+              behand_titel = paste0(tolower(behandeling_nl[1]),ifelse(length(behandeling)>1,paste0(" and ",tolower(behandeling_nl[2])),""))
               if(maand_na_diag %% 6 ==0) {
                 if(maand_na_diag/12==0.5) periode = "een half" else periode=maand_na_diag/12
                 titel_picto_een_treat = sprintf("Overleving na %s jaar bij %s",periode,behand_titel)
@@ -607,7 +594,7 @@ server <- function(input, output, session)
                 titel_picto_een_treat = sprintf("Overleving na %s maanden bij %s",maand_na_diag,behand_titel)
               }
               survival = lapply(overlevingen, function(x) x*100); names(survival) = behandeling_nl
-              plot_pictograph(survival,pictograph_icons, from_top = T,picto_title=titel_picto_een_treat)
+              plot_pictograph(survival,pictograph_icons, from_top = T,picto_title=titel_picto_een_treat,wide=wide)
             } else if(length(behandeling) > 2) {
               list_survivals = list()
               for(i in 1:length(behandeling_nl))###Voor alle behandelingen
@@ -619,7 +606,7 @@ server <- function(input, output, session)
                picto_titel=textGrob(sprintf("Overleving na %s maanden",maand_na_diag), gp=gpar(fontface="bold",fontsize=size_title))
                margin = theme(plot.margin = unit(c(2,2,2,2), "cm"))
                N = length(sub_pictos)
-               grid = N %>% {if(.==3) list(rows=3,columns=1) else get_square_grid(.)}###
+               grid = if(N==3) list(rows=3, columns=1) else get_square_grid(N)###
                picto_ncol = grid$rows###Aantal benodigde kolommen (in de functie staat het nog als rows)
                picto_nrow = grid$columns### Aantal benodigde rows (in de functie staat het nog als columns)
                arrangeGrob(grobs=sub_pictos,ncol=picto_ncol, nrow = picto_nrow,top=picto_titel)
@@ -629,31 +616,21 @@ server <- function(input, output, session)
       
         grid.newpage()
         grid.draw(picto)
-    })
+    }, height=reactive(input$innerHeight*0.85))
 
-  ##Functie voor het ophalen van de plots
-  get_de_plots = function()
-    {##De verschillende plot functies worden aangeroepen op de verschillende outputs
+  # ##Functie voor het ophalen van de plots
+  # get_de_plots = function()
+  #   {##De verschillende plot functies worden aangeroepen op de verschillende outputs
         output$out_over_lijn = plot_survival_km()
         output$out_kwal_lijn = plot_hrqol_line()
         output$out_kwal_bar = plot_hrqol_bar()
         output$out_over_picto = plot_survival_pictograph()
         output$out_tox = plot_toxicity()
-        output$out_over_sv = plot_survival_km()
-        output$out_kwal_sv = plot_hrqol_bar()
-        output$out_tox_sv = plot_toxicity()
-    }
-  get_de_plots()##Functie voor het ophalen en weergeven van de plots wordt gestart
+  #   }
+  # get_de_plots()##Functie voor het ophalen en weergeven van de plots wordt gestart
    
    observeEvent(input$icon_menu_button,{
-     if (input$slokdarm_maag_uitkomsten == "over") {
-         #button_values$over_but_val = button_values$over_but_val + 1##wanneer op de knop gedrukt wordt, wordt de value verhoogd met 1
-         updateActionButton(session, "icon_menu_button",
-           icon=if(input$icon_menu_button%%2==1) icon("line-chart","fa-fw") else icon("male","fa-fw"))
-       
-         toggleElement("out_over_picto", condition=input$icon_menu_button%%2==1)
-         toggleElement("out_over_lijn", condition=input$icon_menu_button%%2==0)
-       } else {
+     if (input$slokdarm_maag_uitkomsten == "kwal") {
          #button_values$kwal_but_val = button_values$kwal_but_val + 1##wanneer op de knop gedrukt wordt, wordt de value verhoogd met 1
          updateActionButton(session, "icon_menu_button",
            icon=if(input$icon_menu_button%%2==1) icon("line-chart","fa-fw") else icon("bar-chart","fa-fw"))
@@ -687,15 +664,12 @@ server <- function(input, output, session)
       updateTabItems(session, "tabs", newtab)
       }
     })
+
   
 ########### VOOR DE INVOER VAN TYPE METASTASEN, een voor een #############
-  observeEvent(input[['eso_only_lymf_meta']],{
-    toggleElement(id="eso_liver_meta", condition=input$eso_only_lymf_meta == "Nee")
-    toggleElement(id="eso_peri_meta", condition=input$eso_only_lymf_meta == "Nee")
-    if (input$eso_only_lymf_meta == "Nee")
-    {
-      hideElement(id="eso_update")
-    }
+  observeEvent(input$eso_only_lymf_meta, {
+    state = ifelse(input$eso_only_lymf_meta=="Nee","show","hide")
+    runjs(paste0("$('.collapse.lp').collapse('",state,"')"))
   })
 ###Bij het geven van input bij peri metastasen, wordt de invoer van aantal metastasen en 'voer gegevens in' knop beschikbaar
   observeEvent(input[['eso_nmeta']], {
