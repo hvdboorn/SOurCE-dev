@@ -1,0 +1,52 @@
+##### Invoer veld voor het kiezen tussen slokdarm of maag tumor
+
+####### Invoerscherm voor de slokdarmtumor ###############
+invoer_eso <- hidden(tags$div(id="eso_invoer",
+box(id="eso_invoer_box", status = "success", solidHeader = T,collapsible=F,collapsed = F,width=NULL,height =NULL,
+  if(!SKIP){fluidPage(fluidRow(id="eso_page1",
+    column(width = 12,
+           
+           
+      tags$div(class="form-group", id="fg-age", tags$label("for"="eso_nLeeft", "Leeftijd"),
+      tags$input(type="number", class="form-control", id="eso_nLeeft", placeholder="18 - 100", min=18, max=100, style="width: 20%")))),
+
+    hidden(fluidRow(id="eso_page2",
+      column(width = 12,
+        radioGroupButtons(inputId = "eso_sCTs",label="cT stadium primaire tumor",
+                          choices=eso_fit$Design$values$sCTs,selected = "none",checkIcon=list(yes=icon("check")),
+                          status="success",size="normal"),
+        radioGroupButtons(inputId = "eso_sCN",label="cN stadium primaire tumor",
+                          choices=eso_fit$Design$values$sCN,selected = "none",checkIcon=list(yes=icon("check")),
+                          status="success",size="normal"),
+             radioGroupButtons(inputId = "eso_tDiffgr",label="Tumor differentiatiegraad",
+                               choices=eso_fit$Design$values$tDiffgr,selected = "none",checkIcon=list(yes=icon("check")),
+                               status="success",size="normal")))),
+    hidden(fluidRow(id="eso_page3",
+      column(width = 12,
+        prettyRadioButtons(inputId = "eso_tTopog_name", label="Locatie primaire tumor",
+                            choiceValues=eso_used_locations, status="success", width="100%",
+           animation = "smooth", bigger=TRUE, icon=icon("check"), plain=TRUE, selected="none",
+           choiceNames = eso_locatie_namen)))),
+    hidden(fluidRow(id="eso_page4",column(width = 12,
+        radioGroupButtons(inputId = "eso_only_lymf_meta",label="Alleen afstandsmetastasen in de lymfeklieren",
+                          choices=c("Ja","Nee"),selected = "none", size="normal", checkIcon=list(yes=icon("check")), status = "success"),
+        tags$div(class="collapse lp", style="padding: 0px; box-shadow: 0 0 transparent;",
+        radioGroupButtons(inputId = "eso_liver_meta",label="Lever metastasen",
+                          choices=c("Ja","Nee"),selected = "none",size="normal", checkIcon=list(yes=icon("check")), status = "success"),
+        radioGroupButtons(inputId = "eso_peri_meta",label="Peritoniale metastasen",
+                          choices=c("Ja","Nee"),selected = "none",size="normal", checkIcon=list(yes=icon("check")), status = "success")),
+        
+        tags$div(class="form-group", id="fg-eso_nmeta", tags$label("for"="eso_nmeta", "Aantal locaties met metastasen"),
+                 tags$input(type="number", class="form-control", id="eso_nmeta", placeholder="1 - 6", min=1, max=6, style="width: 20%"))))),
+    
+        hidden(actionBttn(inputId = "eso_update",label="Voer gegevens in", style = "fill", color="success")),
+        tags$br(),tags$br(),tags$br(),fluidRow(pageruiInput('eso_pager',page_current = 1,pages_total = 4)))}
+        else{actionBttn(inputId = "eso_update",label="Voer gegevens in", style = "fill", color="success")})))
+
+#### Gegevensinvoer scherm
+invoer_pat =
+  fluidPage(id="invoer",
+            radio(inputId = "eso_or_gas", label="Locatie tumor:", selected=ifelse(SKIP,"Slokdarm","none"), 
+                              choiceNames=list("Slokdarm", "Maag")),### Invoer voor keuze tussen slokdarmtumor en maagtumor
+            tags$br(),
+            fluidRow(invoer_eso))###Gegevensinvoer scherm voor slokdarmtumor en maagtumor

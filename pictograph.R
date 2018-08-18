@@ -58,7 +58,7 @@ get_pictograph_icons = function(category_colors, deceased_color=c(deceased="#ccc
   deceased_color = unlist(deceased_color)
   gender = unlist(match.arg(gender))
   #icon = readPNG(paste0(gender,".png"))[,,1:3]
-  icon = readRDS("icon.rds")
+  icon = readRDS("data/pictograph-icon.rds")
   colors = c(category_colors,deceased_color) #list of used colors
   is_deceased = c(rep(F,length(colors)-1),T); names(is_deceased) = names(colors) #which icon depicts a deceased individual?
   colored_icons = lapply(colors,function(x) {rast = rasterGrob(recolor_icon(icon,x))})#$raster
@@ -173,7 +173,7 @@ plot_pictograph = function(surv, pictograph_icons, from_top = TRUE, picto_title,
   VERT_EXP=HOR_EXP*2
   
   grid.newpage()
-  vp1 = viewport(x=0.5,y=0.01,width=ifelse(wide,0.9,0.4),height=0.85,just="bottom",layout=grid.layout(10,10))
+  vp1 = viewport(x=0.5,y=0.01,width=ifelse(wide,0.9,0.4),height=ifelse(show_legend, 0.85, 0.925),just="bottom",layout=grid.layout(10,10))
   #pushViewport(vp1)
   ics = lapply(1:nrow(data), function(i)
   {
@@ -190,11 +190,11 @@ plot_pictograph = function(surv, pictograph_icons, from_top = TRUE, picto_title,
   #popViewport()
   #pushViewport()
   vp2 = viewport(x=0.5,y=0.9,height=0.1)
-  lg = legendGrob(legend_order,nrow=1,pch=21,gp=gpar(fontsize=size_legend,fontfamily="Lato",
+  lg = legendGrob(legend_order,nrow=1,pch=21,gp=gpar(fontsize=CONST$size_legend,#fontfamily="Lato",
                                                      fill=attr(icons,"colors")[legend_order],col=attr(icons,"colors")[legend_order]))
   
   vp3 = viewport(x=0.5,y=0.975)
-  tg = textGrob(picto_title,gp=gpar(fontsize=size_title,fontfamily="Lato"))
+  tg = textGrob(picto_title,gp=gpar(fontsize=CONST$size_title))#,fontfamily="Lato"))
   #popViewport()
   #grid.grab()
   
@@ -230,11 +230,11 @@ plot_pictograph = function(surv, pictograph_icons, from_top = TRUE, picto_title,
 
 # #example
 # #STATES = list("Chemo","Resectie","Chemoradiatie"); names(STATES) = STATES
-treatments = as.list(used_treats_nl)
-STATES = c(treatments,"EMPTY"); names(STATES) = STATES#lijst met behandelingen is dezelfde lijst als used_treats_nl
-COLORS = as.list(c(picto_kleur,"#dddddd")); names(COLORS) = names(STATES)#kleuren van de pictograph komen uit lijn_kleur
+#treatments = as.list(used_treats_nl)
+#STATES = c(treatments,"EMPTY"); names(STATES) = STATES#lijst met behandelingen is dezelfde lijst als used_treats_nl
+#COLORS = as.list(c(picto_kleur,"#dddddd")); names(COLORS) = names(STATES)#kleuren van de pictograph komen uit lijn_kleur
 # #list("#911eb4","#05acaf","#25a60a"); 
-pictograph_icons = get_pictograph_icons(category_colors = COLORS, deceased_color = list("Overleden"="#dddddd"))
+#pictograph_icons = get_pictograph_icons(category_colors = COLORS, deceased_color = list("Overleden"="#dddddd"))
 #surv = list(37,58);names(surv)=c(STATES$Chemo,STATES$Resectie)
 #behandelingen = c("Geen behandeling","Bestraling (tumor)")
 #surv = list(37,58);names(surv)=c(STATES[[behandelingen[1]]],STATES[[behandelingen[2]]])

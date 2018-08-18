@@ -1,4 +1,4 @@
 # SOurCE-dev
-[![SOurCE](https://img.shields.io/badge/SOurCE-0.2.7-blue.svg)](https://github.com/hvdboorn/SOurCE-dev/)
-[![SOurCE](https://img.shields.io/badge/progress-19%25-red.svg)](https://github.com/hvdboorn/SOurCE-dev/)  
-SOurCE prediction models web-interface
+[![SOurCE](https://img.shields.io/badge/SOurCE-0.2.3.9001-blue.svg)](https://github.com/hvdboorn/SOurCE-dev/)
+[![SOurCE](https://img.shields.io/badge/progress-43%25-orange.svg)](https://github.com/hvdboorn/SOurCE-dev/)  
+SOurCE prediction model web-interface

@@ -1,0 +1,160 @@
+SURV:
+  PREDS:
+    first_line: Eerste behandeling
+    has_c770: Lymfeklier metastasen in hoofd/hals gebied
+    has_c771: Thoracale lymfeklier metastasen
+    has_c772: Abdominale lymfeklier metastasen
+    liver_meta: Lever metastasen
+    nLeeft: Leeftijd
+    nmeta: Aantal locaties met afstandsmetastasen
+    only_lymf_meta: Alleen afstandsmetastasen in lymfeklieren
+    peri_meta: Peritoneale metastasen
+    pGesl: Geslacht
+    sCN: Klinische N-stadium
+    sCTs: Klinische T-stadium
+    tDiffgr: Gradering
+    tMorfology_simple: Histologie
+    tTopog_name: Locatie primaire tumor
+  fl:
+    OES:
+      none: Alleen ondersteunend
+      chemotherapy: Chemotherapie
+      chemoradiation: Chemoradiatie
+      chemotherapy_short_radiation: Chemotherapie + korte bestraling
+      resection_meta: Operatie (uitzaaiing)
+      radiotherapy_primary: Bestraling (tumor)
+      radio_meta: Bestraling (uitzaaiing)
+      stent: Stentplaatsing
+    GAS:
+      none: Alleen ondersteunend
+      chemotherapy: Chemotherapie
+      chemotherapy_short_radiation: Chemotherapie + korte bestraling
+      resection_primary: Operatie (tumor)
+      resection_meta: Operatie (uitzaaiing)
+      radiotherapy_primary: Bestraling (tumor)
+      radio_meta: Bestraling (uitzaaiing)
+      stent: Stentplaatsing
+  BIN:
+    'No': Nee
+    'Yes': Ja
+  sex:
+    Male: Man
+    Female: Vrouw
+  grd:
+    G1: '1'
+    G2: '2'
+    G3: '3'
+    G4: '4'
+  hist:
+    Adenocarcinoma: Adenocarcinoom
+    Squamous cell: Plaveiselcelcarcinoom
+    Other: Andere carcinoom
+  topo:
+    OES:
+      Cervical: Cervicaal
+      Upper thoracic: Bovenste deel thorax
+      Mid-thoracic: Middelste deel thorax
+      Lower thoracic: Intra-abdominale thorax
+      Overlapping lesion: Meerdere aaneengesloten gebieden
+      Junction: Gastro-oesophageale junctie
+      Esophagus NOS: Overig
+    GAS:
+      Fundus: Fundus
+      Corpus: Corpus
+      Antrum Pylori: Antrum Pylori
+      Pylorus: Pylorus
+      Lesser curvature NOS: Kleine curvatuur
+      Greater curvature NOS: Grote curvatuur
+      Overlapping lesion: Meerdere aaneengesloten gebieden
+      Stomach NOS: Overig
+LOC: Locatie primaire tumor
+LOCS:
+  Oesophagus: Slokdarm
+  Stomach: Maag
+TTIPS:
+  location_simple:
+    Oesophagus: Slokdarm inclusief junctie
+    Stomach: Maag exclusief junctie
+  sCN:
+    '0': Geen regionale lymfeklier metastasen
+    '1': 1-2 regionale lymfeklier metastasen
+    '2': 3-6 regionale lymfeklier metastasen
+    '3': 7 of meer regionale lymfeklier metastasen
+  scTS:
+    '1': Tumor is de lamina propia, muscularis mucosae of submucosa doordrongen.
+    '2': Tumor is de muscularis propria doordrongen.
+    '3': Tumor is de adventitia doordrongen.
+    '4': Tumor is doorgedrongen tot naastgelegen structuren.
+    X: Onbekend
+  grade:
+    G1: Goed gedifferentieerd
+    G2: Matig gedifferentieerd
+    G3: Slecht gedifferentieerd
+    G4: Ongedifferentieerd
+  only_lymf:
+    'Y': Afstandsmetastasen uitsluitend in lymfeklieren
+    'N': Afstandsmetastasen in tenminste 1 orgaan
+ERR:
+  invalid_range: !expr |
+    function (min, max)
+    sprintf("Ongeldige invoer: vul een getal in tussen de %s en %s",
+        min, max)
+  nmeta: Er zijn meer metastasen locaties aangegeven dan het totaal aantal metastasen.
+  error: Fout
+PLOT:
+  year: jaar
+  half: half
+  time_hrqol: Tijd na diagnose
+  hrqol_norm: Gemiddelde persoon
+  x_hrqol: !expr |
+    function (breaks){
+      if(length(breaks) == 0)
+        return(character(0))
+      x_axis = paste(as.character(breaks/CONST$month),"maanden")
+      x_axis[x_axis=="6 maanden"] = "half jaar"
+      x_axis
+    }
+  time0: !expr |
+    function (t)
+    sprintf("Overleving na %s %s", ifelse(t%%6==0, t/12, t), ifelse(t%%6==0, "jaar", ifelse(t==1, "maand", "maanden")))
+  time1: !expr |
+    function (t, tr)
+    sprintf("Overleving na %s %s bij %s", ifelse(t%%6==0, t/12, t), ifelse(t%%6==0, "jaar", ifelse(t==1, "maand", "maanden")), tr)
+  time2: !expr |
+    function (t, tr)
+    sprintf("Overleving na %s %s bij %s en %s", ifelse(t%%6==0, t/12, t), ifelse(t%%6==0, "jaar", ifelse(t==1, "maand", "maanden")), tr[1], tr[2])
+UI:
+  prev_next:
+    previous: vorige
+    next: volgende
+  
+  surv: Overleving
+  toxicity: Bijwerkingen
+  hrqol: Kwaliteit van leven
+  hrqol_title: Kwaliteit van leven over tijd
+  
+  submit: Voer gegevens in
+  deceased: Overleden
+  entry: Patiënt
+  patient_info: Patiënt gegevens
+  display: Weergave
+  ch_display: Wijzig weergave
+  settings:
+   treats: Behandelingen
+   clear_sel: wissen
+   d_settings: Diagram opties
+   tmax: Tijd na diagnose
+   qol_norm: Algemene bevolking
+   qol_fu: Follow-up
+   tox_all: Alle bijwerkingen
+   percentile: Uitkomst
+   perc_labs:
+    bad: slecht
+    mid: typisch
+    good: goed
+   surv:
+     pic: Pictogram
+     km: Kaplan-Meier
+   hrqol:
+     bar: Staafdiagram
+     line: Lijngrafiek
