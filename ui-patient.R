@@ -54,7 +54,7 @@ ui_patient_entry = fluidPage(
            ),
            
            tags$div(class="form-container",
-              navigation_buttons(),
-              div(actionBttn(inputId = "submit_data",label=dutch$UI$submit, style = "fill", color="warning", size="lg"), style="float:right")
+              div(actionBttn(inputId = "submit_data",label=dutch$UI$submit, style = "fill", color="warning", size="lg"), style="float:right"),
+              navigation_buttons()
            )
   ))

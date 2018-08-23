@@ -1,6 +1,6 @@
 source("util/html2R.R")
 
-button_tooltip = function(base, inputId, title, size="md") {
+button_tooltip = function(base, inputId, title) {
   base %<>% str_replace(paste0("(?s)(<button )((?:(?!</button>).)*?value=\"",inputId,"\".*?</button>)"), 
                         paste0("\\1data-toggle=\"tooltip\" data-trigger=\"hover\" data-container=\"body\" data-placement=\"auto top\" title=\"\" ",
                                "data-original-title=\"",title,"\" \\2"))
@@ -12,6 +12,13 @@ collapse = function(classname, inputId, collapsed=TRUE, ...) {
 
 error_msg = function(title, message) {
   tags$div(class="alert alert-danger", tags$h4(class="alert-heading", title), message)
+}
+
+password_field = function(id, label, placeholder, invalid_text) {
+  div(class="form-group",
+      tags$label(class="form-control-label", "for"=id, label),
+      tags$input(type="password", class="form-control", id=id, placeholder=placeholder),
+      tags$div(style="height: 20px", hidden(tags$small(id=paste0(id,".invalid"), class="form-text invalid-text",invalid_text))))
 }
 
 number_field = function(id, label, value="", placeholder, min, max, invalid_text) {
@@ -44,6 +51,18 @@ radio = function(inputId, label, choiceNames, choiceValues=choiceNames,
   }
 
   eval(parse(text=html2R(base,prefix = TRUE)))
+}
+
+logoBttn = function(inputId, label, tooltip, url) {
+  oc = HTML("window.open('",url,"','_blank')")
+  actionBttn(inputId = inputId, label = label, style = "material-circle", size="sm") %>% as.character %>%
+    str_replace_all("(button class=\".*?)(\")","\\1 logo-button\\2") %>%
+    
+    str_replace(paste0("(?s)(<button )((?:(?!</button>).)*?id=\"",inputId,"\".*?</button>)"), 
+                paste0("\\1data-toggle=\"tooltip\" data-trigger=\"hover\" data-container=\"body\" data-placement=\"auto top\" title=\"\" ",
+                       "data-original-title=\"",tooltip,"\" onclick=\"",oc,"\" \\2")) %>%
+    
+    html2R(prefix = TRUE) %>% parse(text=.) %>% eval
 }
 
 navigation_buttons = function() {

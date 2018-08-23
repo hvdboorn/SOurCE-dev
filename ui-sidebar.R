@@ -14,8 +14,6 @@ settings_surv = tags$div(class="sidebar",id="surv_plot_options",###Kolom voor de
                             status="success", animation = "smooth", bigger=TRUE, icon=icon("check"), plain=TRUE),
         hidden(prettyCheckboxGroup(inputId = "set_surv_first_line.gas", label=NULL, choiceNames = unname(dutch$SURV$fl$GAS), choiceValues=names(dutch$SURV$fl$GAS), 
                                    status="success", animation = "smooth", bigger=TRUE, icon=icon("check"), plain=TRUE)),
-        #hidden(prettyCheckboxGroup(inputId="set_chemo", label=NULL, choices=chemo_behandelingen, selected="none", status = "success",
-        #                           animation="smooth",bigger=TRUE, icon=icon("check"), plain=TRUE)),
         actionBttn("set_surv_clear_treatment", dutch$UI$settings$clear_sel, icon=icon("times"), 
                    style="simple", color="warning",size="xs")
       ),
@@ -44,9 +42,9 @@ settings_hrqol = tags$div(class="sidebar",id="plot_options",###Kolom voor de ver
 
      tags$h4(dutch$UI$settings$treats),
      tags$button(class="action-button bttn bttn-material-flat bttn-lg bttn-success bttn-no-outline",
-                 id="set_surv_treat_collapse", type="button", "data-toggle"="collapse",
-                 "data-target"="#set_treatment_container", icon("medkit","fa-fw")),
-     tags$div(id="set_treatment_container", class="collapse in",
+                 id="set_hrqol_treat_collapse", type="button", "data-toggle"="collapse",
+                 "data-target"="#set_hrqol_treatment_container", icon("medkit","fa-fw")),
+     tags$div(id="set_hrqol_treatment_container", class="collapse in",
               prettyCheckboxGroup(inputId = "set_hrqol_first_line.oes", label=NULL, choiceNames = unname(dutch$SURV$fl$OES), choiceValues=names(dutch$SURV$fl$OES),
                                   status="success", animation = "smooth", bigger=TRUE, icon=icon("check"), plain=TRUE),
               hidden(prettyCheckboxGroup(inputId = "set_hrqol_first_line.gas", label=NULL, choiceNames = unname(dutch$SURV$fl$GAS), choiceValues=names(dutch$SURV$fl$GAS),
@@ -65,6 +63,34 @@ settings_hrqol = tags$div(class="sidebar",id="plot_options",###Kolom voor de ver
      )
     )
   )
+)
+
+settings_tox = tags$div(class="sidebar",id="plot_options",###Kolom voor de verschillende opties aan de rechterzijde van het scherm
+    tags$div(class="border-div",
+       tags$p(class="align_right",
+          
+          tags$h4(dutch$UI$settings$chemos),
+          tags$button(class="action-button bttn bttn-material-flat bttn-lg bttn-success bttn-no-outline",
+                      id="set_tox_treat_collapse", type="button", "data-toggle"="collapse",
+                      "data-target"="#set_tox_treatment_container", icon("medkit","fa-fw")),
+          tags$div(id="set_tox_treatment_container", class="collapse in",
+             prettyCheckboxGroup(inputId = "set_tox_first_line", label=NULL, choiceNames = names(toxicity_data), choiceValues=names(toxicity_data),
+                status="success", animation = "smooth", bigger=TRUE, icon=icon("check"), plain=TRUE),
+             actionBttn("set_tox_clear_treatment", dutch$UI$settings$clear_sel, icon=icon("times"), style="simple", color="warning",size="xs")
+          ),
+          
+          tags$h4(dutch$UI$settings$d_settings),
+          tags$button(class="action-button bttn bttn-material-flat bttn-lg bttn-success bttn-no-outline",
+                      id="set_tox_settings_collapse", type="button", "data-toggle"="collapse",
+                      "data-target"="#set_tox_settings_container", icon("gears","fa-fw")),
+          tags$div(id="set_tox_settings_container", class="collapse",
+                   materialSwitch(inputId = "set_tox_conf",label = "95% CI",status="warning", right=TRUE),
+                   tags$label(class="control-label", `for`="set_tox_display",dutch$UI$settings$topTitle),
+                   switchInput(inputId = "set_tox_display", onLabel = dutch$UI$settings$top3, offLabel = dutch$UI$settings$topAll,onStatus = "warning",
+                               offStatus = "warning", value = TRUE, inline = TRUE, width = "100%")
+          )
+       )
+    )
 )
 # 
 # # dropdown(   

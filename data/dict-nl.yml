@@ -67,6 +67,20 @@ SURV:
       Greater curvature NOS: Grote curvatuur
       Overlapping lesion: Meerdere aaneengesloten gebieden
       Stomach NOS: Overig
+TOX:
+  grade12: mild
+  grade34: ernstig
+  toxnames:
+    Febrile neutropenia: Febriele neutropenie
+    Neuropathy: Neuropathie
+    Hand foot syndrome: Hand-voetsyndroom
+    Stomatitis: Mondslijmvlies ontsteking
+    Mucositis: Slijmvlies ontsteking
+    Diarrhea: Diarree
+    Nausea/vomiting: Misselijkheid/Overgeven
+    Anorexia: Anorexia
+    Fatigue: Vermoeidheid
+    Alopecia: Haaruitval
 LOC: Locatie primaire tumor
 LOCS:
   Oesophagus: Slokdarm
@@ -91,6 +105,7 @@ TTIPS:
     G2: Matig gedifferentieerd
     G3: Slecht gedifferentieerd
     G4: Ongedifferentieerd
+    GX: Onbekend
   only_lymf:
     'Y': Afstandsmetastasen uitsluitend in lymfeklieren
     'N': Afstandsmetastasen in tenminste 1 orgaan
@@ -102,16 +117,21 @@ ERR:
   nmeta: Er zijn meer metastasen locaties aangegeven dan het totaal aantal metastasen.
   error: Fout
 PLOT:
+  alive: in leven
+  deceased: overleden
   year: jaar
   half: half
-  time_hrqol: Tijd na diagnose
+  half_year: een half jaar
+  time_xaxis: Tijd na diagnose (in maanden)
   hrqol_norm: Gemiddelde persoon
   x_hrqol: !expr |
     function (breaks){
       if(length(breaks) == 0)
         return(character(0))
       x_axis = paste(as.character(breaks/CONST$month),"maanden")
-      x_axis[x_axis=="6 maanden"] = "half jaar"
+      x_axis[x_axis=="6 maanden"] = "een half jaar"
+      x_axis = paste0(x_axis, " na diagnose")
+      x_axis[breaks==0] = "Bij diagnose"
       x_axis
     }
   time0: !expr |
@@ -127,7 +147,6 @@ UI:
   prev_next:
     previous: vorige
     next: volgende
-  
   surv: Overleving
   toxicity: Bijwerkingen
   hrqol: Kwaliteit van leven
@@ -140,7 +159,12 @@ UI:
   display: Weergave
   ch_display: Wijzig weergave
   settings:
+   topTitle: Toon bijwerkingen
+   top3: 3 meest voorkomende
+   topAll: Alle
+   
    treats: Behandelingen
+   chemos: Chemokuren
    clear_sel: wissen
    d_settings: Diagram opties
    tmax: Tijd na diagnose

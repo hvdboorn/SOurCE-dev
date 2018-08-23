@@ -1,5 +1,6 @@
 selected_surv = "surv_picto_button"
 selected_hrqol = "hrqol_line_button"
+current_tab = NULL
 
 removeClass(class = "bttn-primary", selector = "button[id*='collapse']")
 removeClass(class = "bttn-success", selector = "button[id*='collapse']")
@@ -24,8 +25,8 @@ onclick("id-set_hrqol_dual-switch", {
   updateRadioGroupButtons(session, "set_hrqol_dual-switch", selected = selected_hrqol)
   runjs("document.activeElement.blur();")
   
-  # toggle("out_surv__pictograph", condition=selected=="surv_picto_button")
-  # toggle("out_surv__km", condition=selected=="surv_line_button")
+  toggle("out_hrqol__line", condition=selected_hrqol=="hrqol_line_button")
+  toggle("out_hrqol__bar", condition=selected_hrqol=="hrqol_bar_button")
   
   toggle("set_hrqol_conf", condition=selected_hrqol %in% c("hrqol_line_button", "hrqol_bar_button"))
   toggle("set_hrqol_tmax", condition=selected_hrqol %in% c("hrqol_line_button", "hrqol_bar_button"))
@@ -38,17 +39,19 @@ observeEvent(location(), {
   toggle("set_hrqol_first_line.gas", condition=location()=="Stomach")
 })
 
-observeEvent(input$set_surv_first_line.oes, {
-  updatePrettyCheckboxGroup(session, "set_hrqol_first_line.oes", selected = input$set_surv_first_line.oes)
-})
-observeEvent(input$set_hrqol_first_line.oes, {
-  updatePrettyCheckboxGroup(session, "set_surv_first_line.oes", selected = input$set_hrqol_first_line.oes)
-})
-observeEvent(input$set_surv_first_line.gas, {
-  updatePrettyCheckboxGroup(session, "set_hrqol_first_line.gas", selected = input$set_surv_first_line.gas)
-})
-observeEvent(input$set_hrqol_first_line.gas, {
-  updatePrettyCheckboxGroup(session, "set_surv_first_line.gas", selected = input$set_hrqol_first_line.gas)
+observeEvent(input$tabs, {
+  prev_tab = current_tab
+  current_tab <<- input$tabs
+  
+  if(!is.null(prev_tab)) {
+    if(prev_tab == "tab.survival") {
+      updatePrettyCheckboxGroup(session, "set_hrqol_first_line.oes", selected = input$set_surv_first_line.oes)
+      updatePrettyCheckboxGroup(session, "set_hrqol_first_line.gas", selected = input$set_surv_first_line.gas)
+    } else if (prev_tab == "tab.hrqol") {
+      updatePrettyCheckboxGroup(session, "set_surv_first_line.oes", selected = input$set_hrqol_first_line.oes)
+      updatePrettyCheckboxGroup(session, "set_surv_first_line.gas", selected = input$set_hrqol_first_line.gas)
+    }
+  }
 })
 
 observeEvent(c(input$set_surv_clear_treatment, input$set_hrqol_clear_treatment), {
@@ -56,4 +59,8 @@ observeEvent(c(input$set_surv_clear_treatment, input$set_hrqol_clear_treatment),
   updatePrettyCheckboxGroup(session, "set_surv_first_line.gas", selected = "")
   updatePrettyCheckboxGroup(session, "set_hrqol_first_line.oes", selected = "")
   updatePrettyCheckboxGroup(session, "set_hrqol_first_line.gas", selected = "")
+})
+
+observeEvent(c(input$set_tox_clear_treatment), {
+  updatePrettyCheckboxGroup(session, "set_tox_first_line", selected = "")
 })

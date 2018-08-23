@@ -1,0 +1,27 @@
+<script src="login.js"></script>
+<div id="shiny-modal" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header text-center">
+            <h4 class="modal-title white-text font-weight-bold">Inloggen</h4>
+         </div>
+         <div class="modal-body">
+            <div class="md-form" style="display: table;width: 100%;">
+               <i class="fa fa-lock fa-2x prefix grey-text;" style="display: table-cell; padding-right: 10px; width: 1%; vertical-align:middle"></i>
+               <label class="form-control-label" for="password"></label>
+               <input type="password" class="form-control" id="password" placeholder="Wachtwoord" style="display: table-cell"/>
+            </div>
+            <div style="height: 20px">
+               <small class="form-text invalid-text shinyjs-hide" id="password.invalid">Ongeldig wachtwoord</small>
+            </div>
+         </div>
+         <div class="modal-footer justify-content-center">
+            <button class="action-button bttn bttn-simple bttn-md bttn-warning bttn-no-outline" id="login_button" type="button">
+            <i class="fa fa-sign-in"></i>
+            Login
+            </button>
+         </div>
+      </div>
+   </div>
+   <script>$('#shiny-modal').modal().focus();</script>
+</div>

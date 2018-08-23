@@ -9,6 +9,34 @@ html, body{
     height: 100%;
 }
 
+.bootstrap-switch .bootstrap-switch-label {
+  background: #e6e6e6 !important;
+}
+
+/*Overflow for treatments for TOX*/
+#set_tox_first_line {
+ max-height: 250px;
+ overflow-y: scroll; 
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #dee2e6;
+    color: #2c3e50;
+    padding: 10px;
+    vertical-align: middle;
+    z-index: 2; /* Stay on top */
+    height: 60px;
+}
+
+.modal-footer {
+  border-top-style: none;
+}
+
 h3, .h3 {
   margin: 0;
 }
@@ -28,6 +56,20 @@ h3, .h3 {
   background-color: #ecf0f1;
 }
 
+.tab-content {
+  margin-top: 60px;
+  padding-top: 10px;
+  margin-bottom: 60px;
+  padding-bottom: 10px;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 60px;
+}
 .nav_buttons {
   margin: 0 auto;
   width: 130px;
@@ -120,6 +162,11 @@ h3, .h3 {
   -webkit-animation-iteration-count: infinite;
 }
 
+#submit_data:hover {
+  border: 1px #f39c12;
+  border-style: solid;
+}
+
 /*Flag icons*/
 .flag-icon {
 	position: relative;
@@ -128,4 +175,10 @@ h3, .h3 {
     line-height: 1em;
 	box-shadow: 0 0 3px rgba(0,0,0,.64);
 	vertical-align: middle;
+}
+
+.modal-header {
+  background-color: #f39c12;
+  color:white !important;
+  text-align: center;
 }

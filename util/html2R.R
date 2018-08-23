@@ -1,5 +1,3 @@
-load_packages("XML", "purrr", "yaml")
-
 makeAttrs <- function(node) {
   attrs <- xmlAttrs(node)
   names(attrs) %>%

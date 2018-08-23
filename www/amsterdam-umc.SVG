@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 71.570003 88.580005"
+   version="1.1"
+   id="svg3755"
+   sodipodi:docname="amsterdam UMC.SVG"
+   width="71.57"
+   height="88.580002"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata3759">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     id="namedview3757"
+     showgrid="false"
+     inkscape:zoom="3.8443205"
+     inkscape:cx="111.68735"
+     inkscape:cy="44.285002"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3755" />
+  <defs
+     id="defs3743">
+    <style
+       id="style3741">.a{fill:#003741}.b{fill:#f07814}</style>
+  </defs>
+  <path
+     d="m 19.11,13.64 v 31.11 c 0,11.93 2.08,17.4 6,20.65 a 26.76,26.76 0 0 0 8.43,4.27 V 41.89 A 35.66,35.66 0 0 0 19.11,13.64 m 33.35,0 v 31.11 c 0,11.93 -2.08,17.4 -6,20.65 A 26.82,26.82 0 0 1 38,69.67 V 41.89 A 35.68,35.68 0 0 1 52.46,13.64"
+     id="path3749"
+     inkscape:connector-curvature="0"
+     style="fill:#e6000f" />
+  <path
+     class="b"
+     d="m 35.79,88.58 c 19.73,0 35.78,-15.7 35.78,-36.37 V 6.69 a 35.51,35.51 0 0 0 -14.43,4 V 48.3 c 0,25 -18,25.82 -21.35,25.82 -3.35,0 -21.35,-0.9 -21.35,-25.82 V 10.71 A 35.55,35.55 0 0 0 0,6.69 v 45.52 c 0,20.67 16.06,36.37 35.79,36.37"
+     id="path3751"
+     inkscape:connector-curvature="0"
+     style="fill:#f07814" />
+  <path
+     class="a"
+     d="M 35.79,24.82 A 39.93,39.93 0 0 1 46.32,11.59 35.87,35.87 0 0 0 35.79,0 35.76,35.76 0 0 0 25.26,11.59 40.18,40.18 0 0 1 35.79,24.82"
+     id="path3753"
+     inkscape:connector-curvature="0"
+     style="fill:#003741" />
+</svg>
